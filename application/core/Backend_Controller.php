@@ -108,9 +108,7 @@ class BackendController extends MY_Controller
                 break;
             case 'add':
                 return array(
-                    'assets/Backend/app-assets/vendors/css/tables/datatable/datatables.min.css',
-                    'assets/Backend/app-assets/css/pages/app-invoice.min.css',
-                    'assets/Backend/app-assets/vendors/css/extensions/sweetalert2.min.css'
+                    'assets/backend/css/pages/wizard/wizard-3.css'
                 );
                 break;
             default:
@@ -151,16 +149,9 @@ class BackendController extends MY_Controller
                     //    'assets/Backend/app-assets/js/scripts/pages/app-invoice.min.js'
                 );
                 break;
-            case 'add':
+            case 'vendor':
                 return array(
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js',
-                    'assets/Backend/app-assets/vendors/js/extensions/sweetalert2.all.min.js',
-                    'assets/Backend/app-assets/js/scripts/parsleyjs/parsley.min.js',
-                    'assets/Backend/js/common.js'
-                    //    'assets/Backend/app-assets/js/scripts/pages/app-invoice.min.js'
+                    'assets/backend/js/vendor.js'
                 );
                 break;
             default:

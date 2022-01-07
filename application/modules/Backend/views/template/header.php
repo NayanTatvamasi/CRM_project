@@ -31,12 +31,22 @@
     <link href="<?= base_url() ?>assets/backend/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
 
+    <!--begin::Page CSS(used by this page)-->
+
+    <?php
+      if(!empty($load_css['template_css'])){
+          foreach($load_css['template_css'] as $val){
+              echo link_tag($val,$rel = 'stylesheet',$type = 'text/css');
+          }
+      }
+    ?>
+    <!--end::Page CSS-->
+
     <!-- Web Tab Icon setting path -->
     <!-- <link rel="shortcut icon" href="assets/backend/media/logos/favicon.ico" /> -->
     <script>
         var baseUrl = '<?= base_url() ?>';
         var baseFolder = '<?= base_url('backend/') ?>';
-        
     </script>
 </head>
 <!--end::Head-->
@@ -44,5 +54,3 @@
 <!--begin::Body-->
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
-
-    
