@@ -96,7 +96,6 @@ if ($data['nofooter'] != 'nofooter') { ?>
     };
 </script>
 <!--end::Global Config-->
-
 <!--begin::Global Theme Bundle(used by all pages)-->
 <script src="<?= base_url() ?>assets/backend/plugins/global/plugins.bundle.js"></script>
 <script src="<?= base_url() ?>assets/backend/plugins/custom/prismjs/prismjs.bundle.js"></script>
