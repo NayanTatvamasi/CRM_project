@@ -1,246 +1,160 @@
 "use strict";
-
 // Class definition
-var KTWizard3 = function () {
-	// Base elements
-	var _wizardEl;
-	var _formEl;
-	var _wizard;
-	var _validations = [];
 
+var KTAppsUsersListDatatable = function () {
 	// Private functions
-	var initWizard = function () {
-		// Initialize form wizard
-		_wizard = new KTWizard(_wizardEl, {
-			startStep: 1, // initial active step number
-			clickableSteps: true  // allow step clicking
+
+	// basic demo
+	var _demo = function () {
+		var datatable = $('#kt_datatable').KTDatatable({
+			// datasource definition
+			data: {
+				type: 'remote',
+				source: {
+					read: {
+						url: baseFolder + 'vendor/vendorList',
+					},
+				},
+				pageSize: 10, // display 20 records per page
+				serverPaging: true,
+				serverFiltering: true,
+				serverSorting: true,
+			},
+			// layout definition
+			layout: {
+				scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+				footer: false, // display/hide footer
+			},
+
+			// column sorting
+			sortable: true,
+
+			pagination: true,
+
+			search: {
+				input: $('#kt_subheader_search_form'),
+				delay: 400,
+				key: 'generalSearch'
+			},
+
+			// columns definition
+			columns: [
+				{
+					field: 'id',
+					title: '#',
+					sortable: false,
+					width: 50,
+					type: 'number',
+					selector: false,
+					textAlign: 'left',
+					template: function (data) {
+						return '<span class="font-weight-bolder">' + data.id + '</span>';
+					}
+				},
+				{
+					field: 'company_name',
+					title: 'Company Name',
+					sortable: 'asc',
+					width: 160,	
+					template: function (data) {
+						return '<span class="font-weight-bolder">' + data.company_name + '</span>';
+					}
+				},
+				{
+					field: 'contact_person_name',
+					title: 'Company Person Name',
+					width: 160,
+					template: function (row) {
+						var output = '';
+
+						output += '<div class="font-weight text-muted">' + row.contact_person_name + '</div>';
+
+						return output;
+					}
+				},{
+					field: 'Country',
+					title: 'Country',
+					width: 100,
+					template: function (row) {
+						var output = '';
+
+						output += '<div class="font-weight-bolder font-size-lg mb-0">' + row.country + '</div>';
+						output += '<div class="font-weight-bold text-muted">Code: ' + row.country + '</div>';
+
+						return output;
+					}
+				}, {
+					field: 'created_at',
+					title: 'Created Date & Time',
+					type: 'date',
+					width: 90,
+					format: 'MM/DD/YYYY',
+					template: function (row) {
+						var output = '';
+
+						output += '<div class="font-weight text-primary mb-0">' + row.created_at + '</div>';
+					
+						return output;
+					},
+				},
+				// {
+				// 	field: 'Status',
+				// 	title: 'Status',
+				// 	// callback function support for column rendering
+				// 	template: function(row) {
+				// 		var status = {
+				// 			1: {'title': 'Pending', 'class': ' label-light-primary'},
+				// 			2: {'title': 'Delivered', 'class': ' label-light-danger'},
+				// 			3: {'title': 'Canceled', 'class': ' label-light-primary'},
+				// 			4: {'title': 'Success', 'class': ' label-light-success'},
+				// 			5: {'title': 'Info', 'class': ' label-light-info'},
+				// 			6: {'title': 'Danger', 'class': ' label-light-danger'},
+				// 			7: {'title': 'Warning', 'class': ' label-light-warning'},
+				// 		};
+				// 		return '<span class="label label-lg font-weight-bold ' + status[row.Status].class + ' label-inline">' + status[row.Status].title + '</span>';
+				// 	},
+				// }, 
+				{
+					field: 'Action',
+					title: 'Action',
+					sortable: false,
+					width: 60,
+					overflow: 'visible',
+					autoHide: false,
+					template: function () {
+						return '\
+	                        <div class="dropdown dropdown-inline">\
+	                        <a href="javascript:;" title="Edit">\
+							<i class="far fa-edit text-success mr-3"></i>\
+	                        </a>\
+	                        <a href="javascript:;" title="Delete">\
+							<i class="fas fa-trash text-danger"></i>\
+	                        </a>\
+	                    ';
+					},
+				}],
 		});
 
-		// Validation before going to next page
-		_wizard.on('beforeNext', function (wizard) {
-			// Don't go to the next step yet
-			_wizard.stop();
-
-			// Validate form
-			var validator = _validations[wizard.getStep() - 1]; // get validator for current step
-			validator.validate().then(function (status) {
-				if (status == 'Valid') {
-					_wizard.goNext();
-					KTUtil.scrollTop();
-				} else {
-					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
-						customClass: {
-							confirmButton: "btn font-weight-bold btn-light"
-						}
-					}).then(function () {
-						KTUtil.scrollTop();
-					});
-				}
-			});
+		$('#kt_datatable_search_status').on('change', function () {
+			datatable.search($(this).val().toLowerCase(), 'Status');
 		});
 
-		// Change event
-		_wizard.on('change', function (wizard) {
-			KTUtil.scrollTop();
+		$('#kt_datatable_search_type').on('change', function () {
+			datatable.search($(this).val().toLowerCase(), 'Type');
 		});
-	}
 
-	var initValidation = function () {
-		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-		// Step 1
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					name: {
-						validators: {
-							notEmpty: {
-								message: 'Name details is required'
-							}
-						}
-					},
-					weight: {
-						validators: {
-							notEmpty: {
-								message: 'Package weight is required'
-							},
-							digits: {
-								message: 'The value added is not valid'
-							}
-						}
-					},
-					width: {
-						validators: {
-							notEmpty: {
-								message: 'Package width is required'
-							},
-							digits: {
-								message: 'The value added is not valid'
-							}
-						}
-					},
-					height: {
-						validators: {
-							notEmpty: {
-								message: 'Package height is required'
-							},
-							digits: {
-								message: 'The value added is not valid'
-							}
-						}
-					},
-					packagelength: {
-						validators: {
-							notEmpty: {
-								message: 'Package length is required'
-							},
-							digits: {
-								message: 'The value added is not valid'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
-		// Step 2
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					address: {
-						validators: {
-							notEmpty: {
-								message: 'Address is required'
-							}
-						}
-					},
-					postcode: {
-						validators: {
-							notEmpty: {
-								message: 'Postcode is required'
-							}
-						}
-					},
-					country: {
-						validators: {
-							notEmpty: {
-								message: 'Country is required'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
-
-		// Step 3
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					delivery: {
-						validators: {
-							notEmpty: {
-								message: 'Delivery type is required'
-							}
-						}
-					},
-					packaging: {
-						validators: {
-							notEmpty: {
-								message: 'Packaging type is required'
-							}
-						}
-					},
-					preferreddelivery: {
-						validators: {
-							notEmpty: {
-								message: 'Preferred delivery window is required'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
-		// Step 4
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					locaddress1: {
-						validators: {
-							notEmpty: {
-								message: 'Address is required'
-							}
-						}
-					},
-					locpostcode: {
-						validators: {
-							notEmpty: {
-								message: 'Postcode is required'
-							}
-						}
-					},
-					loccity: {
-						validators: {
-							notEmpty: {
-								message: 'City is required'
-							}
-						}
-					},
-					locstate: {
-						validators: {
-							notEmpty: {
-								message: 'State is required'
-							}
-						}
-					},
-					loccountry: {
-						validators: {
-							notEmpty: {
-								message: 'Country is required'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-	}
+		$('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
+	};
 
 	return {
 		// public functions
 		init: function () {
-			_wizardEl = KTUtil.getById('kt_wizard_v3');
-			_formEl = KTUtil.getById('kt_form');
+			_demo();
 
-			initWizard();
-			initValidation();
-		}
+		},
 	};
 }();
 
 jQuery(document).ready(function () {
-	KTWizard3.init();
+	KTAppsUsersListDatatable.init();
 });
