@@ -54,10 +54,11 @@ class Common_m extends CI_Model
         $this->db->where($where);
         $this->db->delete($tbl);
     }
-    function delete_record($tbl, $id)
+    function delete_record($tbl, $where)
     {
-        $this->db->where('id', $id);
-        $this->db->delete($tbl);
+        $this->db->where($where);
+        $result=$this->db->delete($tbl);
+        return $result?true:false;
 
     }
 
@@ -80,7 +81,7 @@ class Common_m extends CI_Model
         if (!empty($order_by))
             $this->db->order_by($order_by);
         $query = $this->db->get($common_table);
-        $query_result = $query->result_array();
+        $query_result = $query->result();
      
         return $query_result;
     }

@@ -27,19 +27,20 @@ var KTWizard3 = function () {
 				if (status == 'Valid') {
 					_wizard.goNext();
 					KTUtil.scrollTop();
-				} else {
-					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
-						customClass: {
-							confirmButton: "btn font-weight-bold btn-light"
-						}
-					}).then(function () {
-						KTUtil.scrollTop();
-					});
-				}
+				} 
+				// else {
+				// 	Swal.fire({
+				// 		text: "Sorry, looks like there are some errors detected, please try again.",
+				// 		icon: "error",
+				// 		buttonsStyling: false,
+				// 		confirmButtonText: "Ok, got it!",
+				// 		customClass: {
+				// 			confirmButton: "btn font-weight-bold btn-light"
+				// 		}
+				// 	}).then(function () {
+				// 		KTUtil.scrollTop();
+				// 	});
+				// }
 			});
 		});
 
