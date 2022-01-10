@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 07, 2022 at 09:46 AM
+-- Host: 127.0.0.1:8111
+-- Generation Time: Jan 10, 2022 at 12:56 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -100,6 +100,7 @@ CREATE TABLE `users` (
   `password` varchar(150) NOT NULL,
   `phone` bigint(20) NOT NULL,
   `address` varchar(300) NOT NULL,
+  `pincode` int(20) NOT NULL,
   `city` varchar(150) NOT NULL,
   `state` varchar(150) NOT NULL,
   `country` varchar(150) NOT NULL,
@@ -111,8 +112,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `firstname`, `lastname`, `email`, `status`, `password`, `phone`, `address`, `city`, `state`, `country`, `create_date`, `update_date`) VALUES
-(1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-07 12:43:11');
+INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `firstname`, `lastname`, `email`, `status`, `password`, `phone`, `address`, `pincode`, `city`, `state`, `country`, `create_date`, `update_date`) VALUES
+(1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 346714, 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-08 10:11:33'),
+(35, 2, 1, 'test company', 'test', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-10 12:58:11'),
+(54, 3, 35, 'test', 'test', 'first', 'test@gmail.com', 1, 'test', 652658585985, 'surat', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 16:32:37', '2022-01-10 16:32:37');
 
 --
 -- Indexes for dumped tables
@@ -184,7 +187,7 @@ ALTER TABLE `role_permission`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Constraints for dumped tables

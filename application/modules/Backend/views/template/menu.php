@@ -72,7 +72,7 @@
                 <div id="kt_aside_menu" class="aside-menu my-4 " data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                     <!--begin::Menu Nav-->
                     <ul class="menu-nav ">
-                        <li class="menu-item  menu-item-active" aria-haspopup="true"><a href="<?= base_url('backend/dashboard'); ?>" class="menu-link "><span class="svg-icon menu-icon">
+                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/dashboard'); ?>" class="menu-link "><span class="svg-icon menu-icon">
                                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <polygon points="0 0 24 0 24 24 0 24" />

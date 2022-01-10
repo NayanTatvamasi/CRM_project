@@ -15,23 +15,20 @@
                         <div class="card-header flex-wrap border-0 pt-6 pb-0">
                             <div class="card-title">
                                 <h3 class="card-label">
-                                    <?= $load_data['site_title']; ?> List
+                                    <span id="user_dynamic_title"><?= ucfirst($load_data['site_title']) ?> List</span>
+                                    <span class="d-block text-muted pt-2 font-size-sm" id="user_dynamic_subtitle_span">Your precious user</span>
                                 </h3>
                             </div>
                             <div class="card-toolbar">
                                 <!--begin::Button-->
-                                <a href="#" class="btn btn-primary font-weight-bolder">
-                                    <span class="svg-icon svg-icon-md">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24" height="24" />
-                                                <circle fill="#000000" cx="9" cy="15" r="6" />
-                                                <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span> Add User
-                                </a>
+                                <button type="button" class="btn btn-primary font-weight-bolder " id="adduser">
+                                    <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
+                                </button>
+                                <!--end::Button-->
+                                <!--begin::Button-->
+                                <button type="button" class="btn btn-primary font-weight-bolder d-none" id="listuser">
+                                    <i class="far fa-user"></i> <?= $load_data['site_title']; ?> List
+                                </button>
                                 <!--end::Button-->
                             </div>
                         </div>
@@ -40,17 +37,13 @@
                         <!--begin::Body-->
                         <div class="card-body">
                             <!--begin: Datatable-->
-                            <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                            <div class="datatable datatable-bordered datatable-head-custom" id="userlist">
                             </div>
                             <!--end: Datatable-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Card-->
-                    <div class="card card-custom d-none" id="Add_user">
-                        <div class="card-body p-0">
+
+
                             <!--begin: Wizard-->
-                            <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                            <div class="wizard wizard-3 d-none" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
                                 <!--begin: Wizard Nav-->
                                 <div class="wizard-nav">
                                     <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
@@ -94,7 +87,8 @@
                                 <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
                                     <div class="col-xl-12 col-xxl-7">
                                         <!--begin: Wizard Form-->
-                                        <form class="form" id="kt_form">
+                                        <form class="form" id="user_add_form">
+                                            <input type="hidden" name="user_id" id="user_id">
                                             <!--begin: Wizard Step 1-->
                                             <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                                 <h4 class="mb-10 font-weight-bold text-dark">User Information</h4>
@@ -115,7 +109,7 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Organization name</label><span class="text-danger">*</span>
-                                                    <input type="text" class="form-control" name="organization" id="organization" placeholder="Enter Organization name" />
+                                                    <input type="text" class="form-control" name="organization_name" id="organization_name" placeholder="Enter Organization name" />
                                                 </div>
                                                 <!--end::Input-->
                                                 <!--begin::Input-->
@@ -127,7 +121,7 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Phone number</label><span class="text-danger">*</span>
-                                                    <input type="number" class="form-control" name="number" id="number" placeholder="Enter your number" />
+                                                    <input type="number" class="form-control" name="phone" id="phone" placeholder="Enter your number" />
                                                 </div>
                                                 <!--end::Input-->
                                                 <!--begin::Input-->
@@ -180,7 +174,7 @@
                                                         <!--begin::Select-->
                                                         <div class="form-group">
                                                             <label>Country</label><span class="text-danger">*</span>
-                                                            <select name="country" class="form-control">
+                                                            <select name="country" class="form-control" id="country">
                                                                 <option value="">Select country</option>
                                                                 <option value="AF">Afghanistan</option>
                                                                 <option value="AX">Åland Islands</option>
@@ -508,7 +502,7 @@
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
+                                                    <button type="button" id="users_form_submit_button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
                                                         Submit
                                                     </button>
                                                     <button type="button" id="nextbutton" class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
@@ -524,8 +518,11 @@
                                 <!--end: Wizard Body-->
                             </div>
                             <!--end: Wizard-->
+
                         </div>
+                        <!--end::Body-->
                     </div>
+                    <!--end::Card-->
 
                 </div>
                 <!--end::Container-->
